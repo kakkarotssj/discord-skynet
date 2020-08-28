@@ -8,7 +8,7 @@ DB_CONFIGURATIONS = {
     'user': os.getenv('USER'),
     'password': os.getenv('PASSWORD'),
     'host': os.getenv('HOST'),
-    'port': os.getenv('PORT')
+    'port': os.getenv('DB_PORT')
 }
 
 
