@@ -8,5 +8,5 @@ class EventProcessorBase(ABC):
 
     @classmethod
     @abstractmethod
-    def process(cls, keyword, user_id):
+    def process(cls, keyword, user_id, request_id):
         pass

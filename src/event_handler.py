@@ -1,6 +1,11 @@
+import logging
+
 from src.event_processors.conversation_processor import ConversationProcessor
 from src.event_processors.search_history_processor import SearchHistoryProcessor
 from src.event_processors.search_google_processor import SearchGoogleProcessor
+
+
+logger = logging.getLogger()
 
 
 class EventHandler(object):
@@ -21,7 +26,7 @@ class EventHandler(object):
     }
 
     @classmethod
-    def execute(cls, message, user_id):
+    def execute(cls, message, user_id, request_id):
         """
         Handler method to run for event received
         ~ if message length is of size 1, assume it's for conversation and modify event message
@@ -30,9 +35,10 @@ class EventHandler(object):
 
         :param message: event message received
         :param user_id: user id of the user interacting with server
+        :param request_id: request id assigned to process
         :return: return expected output on basis of handler
         """
-
+        logger.info(f'Request id: [{request_id}], User id: [{user_id}], message received: {message}')
         assert isinstance(message, str), "message type is invalid, should be string!"
         if len(message.split()) == 1:
             message = 'conversation ' + message
@@ -40,6 +46,6 @@ class EventHandler(object):
         action, keyword = message.split(maxsplit=1)
         assert action in cls.event_processor_map, "invalid command"
         processor = cls.event_processor_map[action]
-        result = processor.process(keyword, user_id)
+        result = processor.process(keyword, user_id, request_id)
 
         return result

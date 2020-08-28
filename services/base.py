@@ -1,4 +1,9 @@
+import logging
+
 import requests
+
+
+logger = logging.getLogger()
 
 
 class API(object):
@@ -11,6 +16,10 @@ class API(object):
     REQUEST_METHODS = {
         'GET': lambda url, params, headers: requests.get(url, params, headers=headers)
     }
+
+    def __init__(self, request_id, user_id):
+        self.request_id = request_id
+        self.user_id = user_id
 
     def request(self, action, headers={}, url_slugs=[], params={}, payload={}):
         """
@@ -32,10 +41,22 @@ class API(object):
             headers.update({'Content-Type': 'application/json'})
         url = self._get_url(endpoint, url_slugs)
         try:
+            logger.info(f'Request id: [{self.request_id}], User id: [{self.user_id}], '
+                        f'request sent: url: {url} params {params} headers {headers}')
             response = self.REQUEST_METHODS[request_method](url, params, headers=headers)
             response.raise_for_status()
+        except requests.exceptions.HTTPError as err:
+            logger.error(f'Request id: [{self.request_id}], User id: [{self.user_id}], '
+                         f'HTTP error occurred: {err}')
+        except requests.exceptions.Timeout as err:
+            logger.error(f'Request id: [{self.request_id}], User id: [{self.user_id}], '
+                         f'Request timed out: {err}')
+        except requests.exceptions.TooManyRedirects as err:
+            logger.error(f'Request id: [{self.request_id}], User id: [{self.user_id}], '
+                         f'Too many redirects: {err}')
         except requests.exceptions.RequestException as err:
-            print(f'Error occurred {err}') # change this to log
+            logger.error(f'Request id: [{self.request_id}], User id: [{self.user_id}], '
+                         f'Ambiguous exception occurred while handling request: {err}')
 
         return response
 
