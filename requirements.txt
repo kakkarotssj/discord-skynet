@@ -1,0 +1,4 @@
+requests==2.24.0
+beautifulsoup4==4.9.1
+psycopg2==2.7.6.1 --no-binary psycopg2
+discord.py==1.4.1
