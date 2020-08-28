@@ -22,4 +22,4 @@ class ConversationProcessor(EventProcessorBase):
         :return: return expected conversation of the input keyword or return empty string
         """
 
-        return cls.input_output_conversation_map.get(keyword, '')
+        return cls.input_output_conversation_map.get(keyword, 'Oops! I don\'t know how to respond to that')
