@@ -1,6 +1,7 @@
 import bs4
 
 from .base import EventProcessorBase
+from repository.managers.search_history_manager import SearchHistoryManager
 from services.google import GoogleAPI
 
 
@@ -13,7 +14,7 @@ class SearchGoogleProcessor(EventProcessorBase):
 
     top_n_links = 5
     link_tag = 'div#main > div > div > div > a'
-    output_search_prefix_uri = 'https://google.com'
+    output_search_uri = 'https://google.com'
 
     @classmethod
     def process(cls, keyword, user_id):
@@ -31,6 +32,8 @@ class SearchGoogleProcessor(EventProcessorBase):
         all_links = soup.select(cls.link_tag)
         links = []
         for index in range(min(cls.top_n_links, len(all_links))):
-            links.append(cls.output_search_prefix_uri+all_links[index].get('href'))
+            links.append(cls.output_search_uri+all_links[index].get('href'))
+
+        SearchHistoryManager.insert_in_history(keyword, user_id)
 
         return links

@@ -1,6 +1,6 @@
 from src.event_handler import EventHandler
 
 
-message = '!google nodejs'
-x = EventHandler.execute(message, 'sid')
+message = '!recent game'
+x = EventHandler.execute(message, 'sush')
 print(x)
