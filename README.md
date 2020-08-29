@@ -1,5 +1,6 @@
-# Discord-skynet
+# [Discord-skynet](https://discord.com/api/oauth2/authorize?client_id=747736525504118874&permissions=2048&scope=bot)
 skynet is a bot program, deployed on heroku receiving message from discord server.
+Add bot to your discord server by navigating to the link in header and authorizing
 
 # Features
   - Conversation -- enter 'hi'
