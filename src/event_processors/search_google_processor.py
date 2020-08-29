@@ -37,4 +37,4 @@ class SearchGoogleProcessor(EventProcessorBase):
 
         SearchHistoryManager.insert_in_history(keyword, user_id)
 
-        return links
+        return '\n'.join(links)

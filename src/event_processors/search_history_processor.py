@@ -22,5 +22,6 @@ class SearchHistoryProcessor(EventProcessorBase):
 
         searches = SearchHistoryManager.search_history(keyword, user_id)
 
-        # [{'keyword': 'apple games'}, {'keyword': 'game of thrones'} data retrieved example
-        return [list(search.values())[0] for search in searches]  # convert dict_values to list and fetch value at 0 index
+        # [{'keyword': 'apple games'}, {'keyword': 'game of thrones'}] data retrieved example
+        matched_searches = [list(search.values())[0] for search in searches]  # convert dict_values to list
+        return '\n'.join(matched_searches)
