@@ -16,6 +16,7 @@ async def on_message(message):
     user_id = message.author
     content = message.content
     response = EventHandler.execute(content, user_id, generate_uuid())
-    await message.channel.send(response)
+    if response:
+        await message.channel.send(response)
 
 client.run(token)
